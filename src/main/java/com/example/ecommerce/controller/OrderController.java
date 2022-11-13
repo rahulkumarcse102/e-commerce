@@ -11,10 +11,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -40,11 +37,38 @@ public class OrderController {
     }
 
     @GetMapping(value = "/getOrder/{orderId}")
-    public ResponseEntity<Order> getOrderDetails(@PathVariable int orderId) {
-
+    public ResponseEntity<Order> getOrderDetails(@PathVariable(name = "orderId") int orderId) {
+        System.out.println("we are in " + orderId);
         Order order = orderRequest.getOrderDetails(orderId);
         return ResponseEntity.ok(order);
     }
 
+    @GetMapping(value = "/{id}")
+    public Product getProductById(int id){
+        return productService.getAllProducts().get(id);
+    }
 
+    @PostMapping("/product/add")
+    public Product addProductToDatabase(@RequestBody Product product){
+        return productService.addNewProduct(product);
+    }
+
+    @PutMapping("/product/{id}")
+    public Product updateProductToDatabase(@RequestBody Product product, @PathVariable int id){
+        return productService.updateProduct(product,id);
+    }
+
+    @DeleteMapping("/product/deleteById/{id}")
+    public void deleteProductFromDatabase(@PathVariable(name = "id") int id  ) {
+        productService.deleteById(id);
+        System.out.println("Your item with id "+ id + " deleted successfully");
+
+    }
+
+    @DeleteMapping("/product/deleteAll")
+    public void deleteAllProductFromDatabase() {
+        productService.deleteAllProducts();
+        System.out.println("Your all product deleted successfully");
+
+    }
 }
