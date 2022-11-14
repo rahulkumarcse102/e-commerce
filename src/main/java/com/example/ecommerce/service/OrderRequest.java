@@ -1,6 +1,5 @@
 package com.example.ecommerce.service;
 
-import com.example.ecommerce.entity.Cart;
 import com.example.ecommerce.entity.Order;
 import com.example.ecommerce.entity.Product;
 import com.example.ecommerce.repository.CustomerRepo;
@@ -66,37 +65,22 @@ public class OrderRequest {
         return total;
     }
 
-    public double getCartAmount(@NotNull List<Cart> cart){
+    public double getCartAmount(@NotNull List<Product> cart){
         double total = 0;
         double shippingCharge = 0;
         int available = 0;
         double singleCartAmount = 0;
-        for(Cart c : cart){
-            Optional<Product> product = productRepo.findById(c.getProductId());
-            //checks product availability
-            if(product.isPresent()){
-                Product p = product.get();
-                if(p.getAvailableQuantity() >= available){
-                    singleCartAmount= c.getQty()*p.getPrice();
-                    available = p.getAvailableQuantity() - c.getQty();
-                }
-                else{
-                    singleCartAmount = p.getPrice()*p.getAvailableQuantity();
-                    c.setId(p.getAvailableQuantity());
-                }
-                total += singleCartAmount;
+        for(Product p : cart){
+            if(p.getAvailableQuantity()>0){
+                total+=p.getPrice();
                 int c_pin = 123344;
                 int p_pin = p.getPin();
-                double shippingDistance = Math.abs(c_pin-p_pin);
-                shippingCharge += Shippingamt(p.getWt(),shippingDistance);
-                p.setAvailableQuantity(available);
-                available = 0;
-                c.setProductName(p.getName());
-                c.setAmount(p.getPrice());
+                double shipping_distance = Math.abs(c_pin-p_pin);
+                shippingCharge = Shippingamt(p.getWt(),shipping_distance);
+                p.setAvailableQuantity(p.getAvailableQuantity()-1);
                 productRepo.save(p);
-            }else{
-                continue;
             }
+
         }
         //discount section
         if(total>=1100 && total<2500)total = total*.98;
