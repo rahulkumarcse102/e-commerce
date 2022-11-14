@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
@@ -26,7 +23,9 @@ public class Product {
     private int pin;
 
     private int availableQuantity;
-
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
     public int getId() {
         return id;
     }

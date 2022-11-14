@@ -29,7 +29,7 @@ public class OrderController {
     private CustomerService customerService;
 
 //    private Logger logger = (Logger) LoggerFactory.getLogger(Cart.class);
-
+    List<Product> cartItems;
     @GetMapping(value = "/getAllProducts")
     public ResponseEntity<List<Product>> getAllProducts(){
         List<Product> list = productService.getAllProducts();
@@ -70,5 +70,19 @@ public class OrderController {
         productService.deleteAllProducts();
         System.out.println("Your all product deleted successfully");
 
+    }
+    @PostMapping("/cart/{id}")
+    public List<Product> orderProduct(@PathVariable int id){
+         cartItems.add(productService.getProductById(id));
+         return cartItems;
+    }
+    @GetMapping("/cartItems")
+    public List<Product> getCart(){
+        return cartItems;
+    }
+    @DeleteMapping("/deleteAllCartItem")
+    public void deleteAllCartItem(){
+        cartItems.clear();
+        System.out.println("Your cart is empty");
     }
 }

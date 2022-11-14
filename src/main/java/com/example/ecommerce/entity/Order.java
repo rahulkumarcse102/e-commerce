@@ -22,7 +22,7 @@ public class Order {
     private int id;
     private String description;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
@@ -30,6 +30,8 @@ public class Order {
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private List<Cart> cartItems;
 
+    @OneToOne
+    private Product product;
     public int getId() {
         return id;
     }

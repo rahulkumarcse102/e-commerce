@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 @Data
@@ -25,6 +22,9 @@ public class Cart {
     private String productName;
     private int qty;
     private double amount;
+    @OneToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     public int getId() {
         return id;

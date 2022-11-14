@@ -24,6 +24,10 @@ public class Customer {
 //    @OneToMany(targetEntity = Product.class, cascade = CascadeType.ALL)
 //    @JoinColumn(name = "cp_fk", referencedColumnName = "c_id")
 //    private List<Product> product;
+     @OneToOne
+     private Cart cart;
+     @OneToMany(mappedBy = "id")
+     private List<Order> orders;
 
 
     public int getId() {
@@ -58,6 +62,22 @@ public class Customer {
         this.pin = pin;
     }
 
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
@@ -65,6 +85,8 @@ public class Customer {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", pin=" + pin +
+                ", cart=" + cart +
+                ", orders=" + orders +
                 '}';
     }
 }
