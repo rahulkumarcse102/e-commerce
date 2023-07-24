@@ -46,6 +46,6 @@ The follwing conditions were used to calculate the total discount:
 * name of data source : myHyber
 
 ## Author
-- [Shagufta Shahroz](https://github.com/shaguftashahroz1)
 - [Rahul Kumar](https://github.com/rahulkumarcse102)
+- [Shagufta Shahroz](https://github.com/shaguftashahroz1)
 - [Khushi Pandey](https://github.com/Khushipandey)
